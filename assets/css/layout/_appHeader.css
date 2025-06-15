@@ -8,6 +8,10 @@
     padding: 0 30px;
     padding-left: 60px;
 
+    @media (max-width: 768px) {
+        padding-left: 30px;
+    }
+
     .app-header__aside-toggle-button {
         position: absolute;
         left: 0;
@@ -19,6 +23,12 @@
         border: 1px solid var(--clr-dark);
         border-radius: 8px;
         z-index: 1;
+
+        @media (max-width: 768px) {
+            position: relative;
+            transform: unset;
+            z-index: unset;
+        }
 
         .app-header__aside-toggle-button--icon {
             transition: 0.35s ease-in-out;

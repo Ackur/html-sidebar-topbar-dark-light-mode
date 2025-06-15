@@ -2,12 +2,46 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--sidebar-width);
-    min-height: 100svh;
-    height: 100%;
-    border-right: 1px solid var(--clr-dark);
-    transition: width 0.35s ease-in-out;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+        &.collapsed {
+            left: -100%;
+        }
+    }
+
+    .app-sidebar__backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        color: transparent;
+        transition: background 0.35s ease-in-out;
+
+        @media (max-width: 768px) {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 1;
+
+            .collapsed & {
+                width: unset;
+                height: unset;
+                background-color: rgba(0, 0, 0, 0);
+                opacity: 0;
+            }
+        }
+    }
+
+    .app-sidebar__content {
+        position: relative;
+        width: var(--sidebar-width);
+        min-height: 100svh;
+        height: 100%;
+        background-color: var(--clr-light);
+        border-right: 1px solid var(--clr-dark);
+        transition: width 0.35s ease-in-out;
+        overflow: hidden;
+    }
 
     .app-sidebar__header {
         height: var(--header-height);
@@ -18,15 +52,19 @@
     }
 
     .app-sidebar--logotype {
-        content: "Logotype";
-        font-size: 38px;
-        color: var(--clr-light);
-        line-height: 1;
-        -webkit-text-stroke: 1px var(--clr-dark);
-        font-weight: bold;
+        &::after {
+            content: "Logotype";
+            font-size: 38px;
+            color: var(--clr-light);
+            line-height: 1;
+            -webkit-text-stroke: 1px var(--clr-dark);
+            font-weight: bold;
+        }
 
-        .expanded & {
-            content: "L";
+        @media (min-width: 769px) {
+            .app-sidebar.collapsed &::after {
+                content: "L";
+            }
         }
     }
 
@@ -49,20 +87,23 @@
                     .list-item__link--text {
                         transition: 0.35s ease-in-out;
 
-                        .expanded & {
-                            opacity: 0;
-                            visibility: hidden;
+                        @media (min-width: 769px) {
+                            .collapsed & {
+                                opacity: 0;
+                                visibility: hidden;
+                            }
                         }
                     }
 
                     .list-item__link--icon {
                         min-width: 24px;
                         transition: 0.35s ease-in-out;
-
-                        .expanded & {
-                            min-width: 34px;
-                            width: 34px;
-                            height: 34px;
+                        @media (min-width: 769px) {
+                            .collapsed & {
+                                min-width: 34px;
+                                width: 34px;
+                                height: 34px;
+                            }
                         }
                     }
                 }
