@@ -26,6 +26,8 @@ class CollapsedSidebar {
   }
 
   expandSidebar = () => {
+    this.getStateWidth();
+
     document.documentElement.style.setProperty(
       "--sidebar-width",
       this.sidebarWidth.expanded
@@ -35,6 +37,8 @@ class CollapsedSidebar {
   };
 
   collapseSidebar = () => {
+    this.getStateWidth();
+
     document.documentElement.style.setProperty(
       "--sidebar-width",
       this.sidebarWidth.collapsed
@@ -49,7 +53,18 @@ class CollapsedSidebar {
     else this.expandSidebar();
   };
 
+  getStateWidth = () => {
+    this.sidebarWidth.expanded = getComputedStyle(
+      document.documentElement
+    ).getPropertyValue("--sidebar-expanded-width");
+
+    this.sidebarWidth.collapsed = getComputedStyle(
+      document.documentElement
+    ).getPropertyValue("--sidebar-collapsed-width");
+  };
+
   init = () => {
+    this.getStateWidth();
     if (window.innerWidth <= window.parseInt(this.responsiveMobileWidth))
       this.collapseSidebar();
     else this.expandSidebar();
