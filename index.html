@@ -11,6 +11,8 @@
     />
 
     <link rel="stylesheet" href="assets/css/index.css" />
+
+    <script src="assets/js/initThemeChecker.js"></script>
   </head>
   <body>
     <main class="app-main">
@@ -37,8 +39,32 @@
         <span class="app-header--logotype">Logotype</span>
 
         <div class="app-header__controls">
-          <button class="app-header__controls--item">Mode</button>
-          <button class="app-header__controls--item">Menu</button>
+          <button
+            id="theme-switcher"
+            aria-label="theme switcher"
+            class="app-header__controls--item theme-switcher"
+          >
+            <svg
+              width="24"
+              height="24"
+              class="app-header__controls--item--icon"
+            >
+              <use
+                href="assets/images/icons/icons-symbol.svg#sun"
+                class="light"
+              />
+              <use
+                href="assets/images/icons/icons-symbol.svg#moon"
+                class="dark"
+              />
+            </svg>
+          </button>
+          <button class="app-header__controls--item">
+            <span>Menu</span>
+            <svg width="24" height="24">
+              <use href="assets/images/icons/icons-symbol.svg#user" />
+            </svg>
+          </button>
         </div>
       </header>
 

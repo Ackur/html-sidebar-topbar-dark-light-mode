@@ -20,6 +20,12 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: 0.35s ease-in-out;
+
+  [data-theme="dark"] & {
+    color: var(--clr-light);
+    background-color: var(--clr-dark);
+  }
 }
 
 ul {
