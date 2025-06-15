@@ -5,38 +5,55 @@ const elements = {
   themeSwitcher: document.getElementById("theme-switcher"),
 };
 
-const sidebarWidth = {
-  expanded: getComputedStyle(document.documentElement).getPropertyValue(
-    "--sidebar-expanded-width"
-  ),
-  collapsed: getComputedStyle(document.documentElement).getPropertyValue(
-    "--sidebar-collapsed-width"
-  ),
-};
+const responsiveMobileWidth = "768px";
 
-function expandSidebar() {
-  document.documentElement.style.setProperty(
-    "--sidebar-width",
-    sidebarWidth.expanded
-  );
-  elements.sidebarToggle.setAttribute("aria-expanded", "true");
-  elements.sidebar.classList.remove("collapsed");
-}
+class CollapsedSidebar {
+  sidebarEl = null;
+  triggerEl = null;
+  sidebarWidth = {
+    expanded: getComputedStyle(document.documentElement).getPropertyValue(
+      "--sidebar-expanded-width"
+    ),
+    collapsed: getComputedStyle(document.documentElement).getPropertyValue(
+      "--sidebar-collapsed-width"
+    ),
+  };
 
-function collapseSidebar() {
-  document.documentElement.style.setProperty(
-    "--sidebar-width",
-    sidebarWidth.collapsed
-  );
-  elements.sidebarToggle.setAttribute("aria-expanded", "false");
-  elements.sidebar.classList.add("collapsed");
-}
+  constructor(sidebarEl, triggerEl, responsiveMobileWidth) {
+    this.sidebarEl = sidebarEl;
+    this.triggerEl = triggerEl;
+    this.responsiveMobileWidth = responsiveMobileWidth;
+  }
 
-function toggleSidebar() {
-  const isExpanded =
-    elements.sidebarToggle.getAttribute("aria-expanded") === "true";
-  if (isExpanded) collapseSidebar();
-  else expandSidebar();
+  expandSidebar = () => {
+    document.documentElement.style.setProperty(
+      "--sidebar-width",
+      this.sidebarWidth.expanded
+    );
+    this.triggerEl.setAttribute("aria-expanded", "true");
+    this.sidebarEl.classList.remove("collapsed");
+  };
+
+  collapseSidebar = () => {
+    document.documentElement.style.setProperty(
+      "--sidebar-width",
+      this.sidebarWidth.collapsed
+    );
+    this.triggerEl.setAttribute("aria-expanded", "false");
+    this.sidebarEl.classList.add("collapsed");
+  };
+
+  toggleSidebar = () => {
+    const isExpanded = this.triggerEl.getAttribute("aria-expanded") === "true";
+    if (isExpanded) this.collapseSidebar();
+    else this.expandSidebar();
+  };
+
+  init = () => {
+    if (window.innerWidth <= window.parseInt(this.responsiveMobileWidth))
+      this.collapseSidebar();
+    else this.expandSidebar();
+  };
 }
 
 // PROJECT COLOR THEME
@@ -89,13 +106,25 @@ class ProjectColorTheme {
   };
 }
 
+const collapsedSidebar = new CollapsedSidebar(
+  elements.sidebar,
+  elements.sidebarToggle,
+  responsiveMobileWidth
+);
 const projectColorTheme = new ProjectColorTheme();
+
+collapsedSidebar.init();
 projectColorTheme.init();
 
 elements.themeSwitcher.addEventListener("click", projectColorTheme.toogleTheme);
-elements.sidebarToggle.addEventListener("click", toggleSidebar);
-elements.sidebarBackdrop.addEventListener("click", toggleSidebar);
-window.matchMedia("(min-width: 769px)").addEventListener("change", event => {
-  if (event.matches) expandSidebar();
-  else collapseSidebar();
-});
+elements.sidebarToggle.addEventListener(
+  "click",
+  collapsedSidebar.toggleSidebar
+);
+elements.sidebarBackdrop.addEventListener(
+  "click",
+  collapsedSidebar.toggleSidebar
+);
+window
+  .matchMedia(`(max-width: ${responsiveMobileWidth})`)
+  .addEventListener("change", collapsedSidebar.init);
