@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -24,14 +26,10 @@ ul {
   list-style: none;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 button {
   font-family: inherit;
   font-size: inherit;
+  color: inherit;
   border: none;
   background: none;
   cursor: pointer;

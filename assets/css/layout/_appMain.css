@@ -1,0 +1,11 @@
+.app-main {
+    position: relative;
+    padding-left: var(--sidebar-width);
+    transition: padding 0.35s ease-in-out;
+
+    .app-main__content {
+        .app-main__content--wrapper {
+            padding: 12px 30px;
+        }
+    }
+}
